@@ -1,14 +1,14 @@
-package com.oms.impl;
+package com.orderitem.impl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.oms.entity.OrderItem;
-import com.oms.repository.OrderItemRepository;
-import com.oms.service.IOrderItemService;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.orderitem.entity.OrderItem;
+import com.orderitem.repository.OrderItemRepository;
+import com.orderitem.service.IOrderItemService;
 
 @Service
 public class OrderItemServiceImpl implements IOrderItemService{
@@ -30,8 +30,8 @@ public class OrderItemServiceImpl implements IOrderItemService{
 	 * Implementation for retrieving Order Item details based on customer ID from H2 DB
 	 */
 	@Override
-	public OrderItem getOrderItemDetail(int id) {
-		return orderItemRepository.findById(id).get();
+	public List<OrderItem> getOrderItemDetail(int id) {
+		return orderItemRepository.findAllByCustomerId(id);
 	}
 
 	/**

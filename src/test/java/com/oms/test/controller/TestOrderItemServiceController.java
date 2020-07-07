@@ -9,9 +9,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.oms.controller.OrderItemServiceController;
-import com.oms.entity.OrderItem;
-import com.oms.service.IOrderItemService;
+import com.orderitem.controller.OrderItemServiceController;
+import com.orderitem.entity.OrderItem;
+import com.orderitem.service.IOrderItemService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,14 +42,17 @@ public class TestOrderItemServiceController {
 		assertEquals(orderItemList.size(), orderItemListActual.size());
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testOrderItemServiceController_GetByID() {
+		List<OrderItem> orderItems = new ArrayList<OrderItem>();
 		OrderItem orderItem = new OrderItem(1, "GGG", "Scales", 40);
-		Mockito.when(iOrderItemService.getOrderItemDetail(1)).thenReturn(orderItem);
+		orderItems.add(orderItem);
+		Mockito.when(iOrderItemService.getOrderItemDetail(1)).thenReturn(orderItems);
 		ResponseEntity<?> responseEntity = orderItemServiceController.getOrderItem(1);
 		assertNotNull(responseEntity);
 		assertNotNull(responseEntity.getBody());
-		OrderItem orderItemActual = (OrderItem) responseEntity.getBody();
+		List<OrderItem> orderItemActual = (List<OrderItem>) responseEntity.getBody();
 		assertEquals(orderItem, orderItemActual);
 	}
 	

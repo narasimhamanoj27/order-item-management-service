@@ -1,4 +1,4 @@
-package com.oms.configuration;
+package com.orderitem.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

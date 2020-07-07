@@ -1,9 +1,11 @@
-package com.oms;
+package com.orderitem;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan("com.orderitem")
 public class Application {
 
 	public static void main(String[] args) {

@@ -1,8 +1,8 @@
-package com.oms.service;
+package com.orderitem.service;
 
 import org.springframework.stereotype.Component;
 
-import com.oms.entity.OrderItem;
+import com.orderitem.entity.OrderItem;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public interface IOrderItemService {
 
 	List<OrderItem> getAllOrderItems();
 
-	OrderItem getOrderItemDetail(int id);
+	List<OrderItem> getOrderItemDetail(int id);
 	
 	List<OrderItem> postOrderItemDetail(List<OrderItem> orderItem);
 }

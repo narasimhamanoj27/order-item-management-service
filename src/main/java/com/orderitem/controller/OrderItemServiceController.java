@@ -1,8 +1,7 @@
-package com.oms.controller;
+package com.orderitem.controller;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException.InternalServerError;
 
-import com.oms.configuration.CustomException;
-import com.oms.constants.ErrorConstants;
-import com.oms.entity.OrderItem;
-import com.oms.service.IOrderItemService;
+import com.orderitem.configuration.CustomException;
+import com.orderitem.constants.ErrorConstants;
+import com.orderitem.entity.OrderItem;
+import com.orderitem.service.IOrderItemService;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -48,8 +47,7 @@ public class OrderItemServiceController {
 	 * @return ResponseEntity<List<OrderItem>>
 	 */
 	@ApiResponses(value = { @ApiResponse(message = "Successful response", code = 200, response = OrderItem.class),
-			@ApiResponse(message = "Not Found", code = 404),
-			@ApiResponse(message = "UnAuthorized", code = 401),
+			@ApiResponse(message = "Not Found", code = 404), @ApiResponse(message = "UnAuthorized", code = 401),
 			@ApiResponse(message = "Internal Server Error", code = 500),
 			@ApiResponse(message = "UnProcessable Entity", code = 422) })
 	@ApiOperation(value = "Operation to retrieve all the Order Items", notes = "Operation to retrieve all the Order Items")
@@ -83,19 +81,17 @@ public class OrderItemServiceController {
 	 * @return ResponseEntity<OrderItem>
 	 */
 	@ApiResponses(value = { @ApiResponse(message = "Successful response", code = 200, response = OrderItem.class),
-			@ApiResponse(message = "Not Found", code = 404),
-			@ApiResponse(message = "UnAuthorized", code = 401),
+			@ApiResponse(message = "Not Found", code = 404), @ApiResponse(message = "UnAuthorized", code = 401),
 			@ApiResponse(message = "Internal Server Error", code = 500),
 			@ApiResponse(message = "UnProcessable Entity", code = 422) })
 	@ApiOperation(value = "Operation to retrieve an Order Item by customer ID", notes = "Operation to retrieve an Order Item by customer ID")
 	@GetMapping("/orderItem/{id}")
 	public ResponseEntity<?> getOrderItem(@PathVariable("id") final int id) {
 
-		OrderItem orderItem = null;
+		List<OrderItem> orderItems = null;
 		try {
-			orderItem = iOrderItemService.getOrderItemDetail(id);
-			Optional<OrderItem> optionalOrder = Optional.ofNullable(orderItem);
-			if (!optionalOrder.isPresent()) {
+			orderItems = iOrderItemService.getOrderItemDetail(id);
+			if (orderItems.size() <= 0) {
 				throw new HttpClientErrorException(HttpStatus.NOT_FOUND, ErrorConstants.ORDERITEM_NOT_FOUND);
 			}
 		} catch (HttpClientErrorException ex) {
@@ -114,7 +110,7 @@ public class OrderItemServiceController {
 					"ORDER_ITEM_NOT_FOUND");
 			return new ResponseEntity<>(customException, HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(orderItem, HttpStatus.OK);
+		return new ResponseEntity<>(orderItems, HttpStatus.OK);
 	}
 
 	/**
@@ -124,8 +120,7 @@ public class OrderItemServiceController {
 	 * @return ResponseEntity<?>
 	 */
 	@ApiResponses(value = { @ApiResponse(message = "Successful response", code = 200),
-			@ApiResponse(message = "Not Found", code = 404),
-			@ApiResponse(message = "UnAuthorized", code = 401),
+			@ApiResponse(message = "Not Found", code = 404), @ApiResponse(message = "UnAuthorized", code = 401),
 			@ApiResponse(message = "Internal Server Error", code = 500),
 			@ApiResponse(message = "UnProcessable Entity", code = 422) })
 	@ApiOperation(value = "Operation to save an Order Item into H2", notes = "Operation to save an Order Item into H2")

@@ -9,9 +9,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.oms.entity.OrderItem;
-import com.oms.impl.OrderItemServiceImpl;
-import com.oms.repository.OrderItemRepository;
+import com.orderitem.entity.OrderItem;
+import com.orderitem.impl.OrderItemServiceImpl;
+import com.orderitem.repository.OrderItemRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +60,8 @@ public class TestOrderItemService {
 	public void testGetOrderItemsByID() {
 		Optional<OrderItem> optionalOrderItem = Optional.ofNullable(new OrderItem(1, "XXX", "Biscuits", 10));
 		Mockito.when(orderItemRepository.findById(1)).thenReturn(optionalOrderItem);
-		OrderItem orderItemActual = orderItemServiceImpl.getOrderItemDetail(1);
+		List<OrderItem> orderItemActual = orderItemServiceImpl.getOrderItemDetail(1);
 		assertNotNull(orderItemActual);
-		assertEquals(optionalOrderItem.get(), orderItemActual);
+		assertEquals(optionalOrderItem.get(), orderItemActual.get(0));
 	}
 }
